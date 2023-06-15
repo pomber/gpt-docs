@@ -9,7 +9,7 @@ function App({ Component, pageProps }) {
         <title>OpenAI Chat Completion Unofficial Docs</title>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </Head>
-      <ThemeChanger />
+      {/* <ThemeChanger /> */}
       <header />
       <Component {...pageProps} />
       <footer />
@@ -34,7 +34,7 @@ const themeScript = `
 
 const ThemeChanger = () => {
   return (
-    <div>
+    <div style={{ position: "absolute" }}>
       <button onClick={() => setTheme("light")}>Light Mode</button>
       <button onClick={() => setTheme("dark")}>Dark Mode</button>
     </div>

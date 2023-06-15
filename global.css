@@ -1,33 +1,103 @@
 html {
   /* scroll-padding-top: 50vh; */
   scroll-behavior: smooth;
+
+  background: #0d1117;
+  color: var(--ch-4);
+
+  --code-shadow: #c9d1d910;
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  background: #ffffff;
+  --code-shadow: #24292f10;
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: var(--ch-2);
 }
 
 main {
-  max-width: 980px;
+  max-width: 1000px;
   margin: 0 auto;
+  padding: 0 1rem;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   line-height: 1.6;
-  --ch-scrollycoding-sticker-width: 600px;
-  --ch-scrollycoding-code-min-height: 80vh;
-}
-
-header,
-footer {
-  height: 40vh;
-}
-
-.ch-scrollycoding-step-content {
-  position: relative;
 }
 
 nav {
   position: absolute;
   height: 100%;
   top: min(calc(50% - 50vh), -4px);
-  background: rgba(255, 0, 255, 0.8);
   width: 0;
+}
+
+/* code hike */
+
+.ch-scrollycoding {
+  flex-direction: row-reverse;
+  margin: 0;
+  --ch-scrollycoding-sticker-width: 550px;
+  --ch-scrollycoding-code-min-height: 100vh;
+}
+
+.ch-scrollycoding-static .ch-codeblock {
+  box-shadow: 0 0 0 1px #fff1;
+}
+
+.ch-code-scroll-parent {
+  line-height: 20px;
+}
+
+.ch-scrollycoding-step-content {
+  margin-bottom: 1rem;
+}
+.ch-scrollycoding-step-content:first-child {
+  margin-top: max(calc(50vh - 222px), 1rem);
+}
+.ch-scrollycoding-step-content:last-child {
+  margin-bottom: max(calc(50vh - 110px), 1rem);
+}
+
+.ch-scrollycoding-step-content {
+  position: relative;
+  padding: 1rem 1rem;
+  background: #0d1117;
+  -webkit-transition: background-color 400ms ease-in-out;
+  -ms-transition: background-color 400ms ease-in-out;
+  transition: background-color 400ms ease-in-out;
+}
+
+.ch-scrollycoding-step-content[data-selected="true"] {
+  border: 1px solid #fff1;
+  background: var(--ch-14);
+}
+.ch-scrollycoding-content {
+  /* border-left: 1px solid var(--ch-21); */
+  padding-left: 1rem;
+  /* background: var(--ch-14); */
+}
+.ch-scrollycoding-content .ch-codeblock {
+  border-radius: 0;
+  margin: 0 -1rem;
+}
+.ch-scrollycoding-sticker {
+  top: 0;
+  max-height: 100vh;
+}
+
+.ch-codeblock,
+.ch-codegroup,
+.ch-preview {
+  box-shadow: none;
 }
 
 /* github-from-css */
