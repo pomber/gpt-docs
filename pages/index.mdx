@@ -93,11 +93,19 @@ The first message in the array is the prompt. And it's the only message with _`r
 // from ../snippets/functions.js
 ```
 
+A list of functions the model may generate JSON inputs for.
+
 ---
 
 ## Function Call
 
 <nav id="function-call" />
+
+```js focus=29
+// from ../snippets/functions.js
+```
+
+Controls how the model responds to function calls. "none" means the model does not call a function and responds to the end-user. `"auto"` means the model can pick between an end-user or calling a function. Specifying a particular function via _`{"name": "my_function"}`_ forces the model to call that function. `"none"` is the default when no functions are present. `"auto"` is the default if functions are present.
 
 ---
 
