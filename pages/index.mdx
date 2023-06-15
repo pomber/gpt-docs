@@ -33,7 +33,7 @@ The first thing you'll need is the _`OPENAI_API_KEY`_. Visit your [API Keys](htt
 
 <nav id="model" />
 
-```js focus=7 mark=7[10:24]
+```js focus=8
 // from ../snippets/base.js
 ```
 
@@ -64,7 +64,7 @@ June 27th, 2023 from gpt-4-0314 to gpt-4-0613
 
 <nav id="messages" />
 
-```js focus=8:11
+```js focus=9:12
 // from ../snippets/base.js
 ```
 
@@ -89,11 +89,25 @@ The first message in the array is the prompt. And it's the only message with _`r
 
 <nav id="functions" />
 
-```js focus=12:28
+```js focus=13:29
 // from ../snippets/functions.js
 ```
 
-A list of functions the model may generate JSON inputs for.
+An optional list of functions the model may generate JSON inputs for.
+
+The latest models (`gpt-3.5-turbo-0613` and `gpt-4-0613`) have been fine-tuned to both detect when a function should to be called (depending on the input) and to respond with JSON that adheres to the function signature. With this capability also comes potential risks. We strongly recommend building in user confirmation flows before taking actions that impact the world on behalf of users (sending an email, posting something online, making a purchase, etc).
+
+---
+
+## Parameters
+
+<nav id="parameters" />
+
+```js focus=17:26
+// from ../snippets/functions.js
+```
+
+The parameters the functions accepts, described as a JSON Schema object. See the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
 
 ---
 
@@ -101,11 +115,13 @@ A list of functions the model may generate JSON inputs for.
 
 <nav id="function-call" />
 
-```js focus=29
+```js focus=30,50:58
 // from ../snippets/functions.js
 ```
 
-Controls how the model responds to function calls. "none" means the model does not call a function and responds to the end-user. `"auto"` means the model can pick between an end-user or calling a function. Specifying a particular function via _`{"name": "my_function"}`_ forces the model to call that function. `"none"` is the default when no functions are present. `"auto"` is the default if functions are present.
+Controls how the model responds to function calls. "none" means the model does not call a function and responds to the end-user. `"auto"` means the model can pick between an end-user or calling a function. Specifying a particular function via _`{"name": "my_function"}`_ forces the model to call that function.
+
+`"none"` is the default when no functions are present. `"auto"` is the default if functions are present.
 
 ---
 
@@ -124,5 +140,11 @@ Controls how the model responds to function calls. "none" means the model does n
 ## Temperature
 
 <nav id="temperature" />
+
+---
+
+## Choices
+
+<nav id="choices" />
 
 </CH.Scrollycoding>
