@@ -1,43 +1,15 @@
 # OpenAI Chat Completion Unofficial Docs
 
-[Edit this page](https://pr.new/github.com/pomber/gpt-completions-api-docs/edit/main/pages/index.mdx).
-
-OpenAI's GPT (generative pre-trained transformer) models have been trained to understand natural language and code. GPTs provide text outputs in response to their inputs. The inputs to GPTs are also referred to as "prompts". Designing a prompt is essentially how you “program” a GPT model, usually by providing instructions or some examples of how to successfully complete a task.
+[Edit this page](https://pr.new/github.com/pomber/gpt-completions-api-docs/edit/main/pages/index.mdx) |
+[GitHub](https://github.com/pomber/gpt-completions-api-docs)
 
 <CH.Scrollycoding>
 
 ```js
-const { Configuration, OpenAIApi } = require("openai");
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
-const completion = await openai.createChatCompletion({
-  // focus(1:16)
-  // link[3:7] #model
-  model: "gpt-3.5-turbo",
-  // link[3:10] #messages
-  messages: [
-    { role: "system", content: "You are a helpful assistant." },
-    { role: "user", content: "Hello world" },
-  ],
-  // link[3:11] #functions
-  functions: [{ name: "foo", description: "foo bar baz", parameters: {} }],
-  // link[3:15] #function-call
-  function_call: "auto",
-  // link[3:6] #user
-  user: undefined,
-  stream: false,
-  temperature: 1,
-  top_p: 1,
-  n: 1,
-  max_tokens: Math.infinity,
-  presence_penalty: 0,
-  frequency_penalty: 0,
-  logit_bias: null,
-});
-console.log(completion.data);
+// from ../snippets/base.js
 ```
+
+OpenAI's GPT (generative pre-trained transformer) models have been trained to understand natural language and code. GPTs provide text outputs in response to their inputs. The inputs to GPTs are also referred to as "prompts". Designing a prompt is essentially how you “program” a GPT model, usually by providing instructions or some examples of how to successfully complete a task.
 
 Given a list of messages comprising a conversation, the model will return a response.
 
@@ -46,6 +18,10 @@ Given a list of messages comprising a conversation, the model will return a resp
 ## API key
 
 <nav id="api-key" />
+
+```js focus=3
+// from ../snippets/base.js
+```
 
 The first thing you'll need is the _`OPENAI_API_KEY`_. Visit your [API Keys](https://platform.openai.com/account/api-keys) page to retrieve the API key you'll use in your requests.
 
@@ -57,34 +33,8 @@ The first thing you'll need is the _`OPENAI_API_KEY`_. Visit your [API Keys](htt
 
 <nav id="model" />
 
-```js
-const { Configuration, OpenAIApi } = require("openai");
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
-const completion = await openai.createChatCompletion({
-  // focus(1:16)
-  // link[3:7] #model
-  model: "gpt-3.5-turbo",
-  // link[3:10] #messages
-  messages: [
-    { role: "system", content: "You are a helpful assistant." },
-    { role: "user", content: "Hello world" },
-  ],
-  functions: [{ name: "foo", description: "foo bar baz", parameters: {} }],
-  function_call: "auto",
-  user: undefined,
-  stream: false,
-  temperature: 1,
-  top_p: 1,
-  n: 1,
-  max_tokens: Math.infinity,
-  presence_penalty: 0,
-  frequency_penalty: 0,
-  logit_bias: null,
-});
-console.log(completion.data);
+```js focus=7 mark=7[10:24]
+// from ../snippets/base.js
 ```
 
 _`model`_ is a required field.
@@ -114,41 +64,34 @@ June 27th, 2023 from gpt-4-0314 to gpt-4-0613
 
 <nav id="messages" />
 
-```js
-const { Configuration, OpenAIApi } = require("openai");
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
-const completion = await openai.createChatCompletion({
-  // focus(1:16)
-  // link[3:7] #model
-  model: "gpt-3.5-turbo",
-  // link[3:10] #messages
-  messages: [
-    { role: "system", content: "You are a helpful assistant." },
-    { role: "user", content: "Hello world" },
-  ],
-  functions: [{ name: "foo", description: "foo bar baz", parameters: {} }],
-  function_call: "auto",
-  user: undefined,
-  stream: false,
-  temperature: 1,
-  top_p: 1,
-  n: 1,
-  max_tokens: Math.infinity,
-  presence_penalty: 0,
-  frequency_penalty: 0,
-  logit_bias: null,
-});
-console.log(completion.data);
+```js focus=8:11
+// from ../snippets/base.js
 ```
+
+_`messages`_ is a required array. A list of messages comprising the conversation so far.
+
+Each message follows the format:
+
+```js
+{
+  role: "system" | "user" | "assistant" | "function",
+  content: string | undefined,
+  name: string | undefined,
+  function_call: object | undefined,
+}
+```
+
+The first message in the array is the prompt. And it's the only message with _`role: "system"`_.
 
 ---
 
 ## Functions
 
 <nav id="functions" />
+
+```js focus=12:28
+// from ../snippets/functions.js
+```
 
 ---
 
