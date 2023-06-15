@@ -1,8 +1,61 @@
-# Hello
+# OpenAI Chat Completion Unofficial Docs
 
 [Edit this page](https://pr.new/github.com/pomber/gpt-completions-api-docs/edit/main/pages/index.mdx).
 
+OpenAI's GPT (generative pre-trained transformer) models have been trained to understand natural language and code. GPTs provide text outputs in response to their inputs. The inputs to GPTs are also referred to as "prompts". Designing a prompt is essentially how you “program” a GPT model, usually by providing instructions or some examples of how to successfully complete a task.
+
 <CH.Scrollycoding>
+
+```js
+const { Configuration, OpenAIApi } = require("openai");
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+const completion = await openai.createChatCompletion({
+  // focus(1:16)
+  // link[3:7] #model
+  model: "gpt-3.5-turbo",
+  // link[3:10] #messages
+  messages: [
+    { role: "system", content: "You are a helpful assistant." },
+    { role: "user", content: "Hello world" },
+  ],
+  // link[3:11] #functions
+  functions: [{ name: "foo", description: "foo bar baz", parameters: {} }],
+  // link[3:15] #function-call
+  function_call: "auto",
+  // link[3:6] #user
+  user: undefined,
+  stream: false,
+  temperature: 1,
+  top_p: 1,
+  n: 1,
+  max_tokens: Math.infinity,
+  presence_penalty: 0,
+  frequency_penalty: 0,
+  logit_bias: null,
+});
+console.log(completion.data);
+```
+
+Given a list of messages comprising a conversation, the model will return a response.
+
+---
+
+## API key
+
+<nav id="api-key" />
+
+The first thing you'll need is the _`OPENAI_API_KEY`_. Visit your [API Keys](https://platform.openai.com/account/api-keys) page to retrieve the API key you'll use in your requests.
+
+**Remember that your API key is a secret!** Do not share it with others or expose it in any client-side code (browsers, apps). Production requests must be routed through your own backend server where your API key can be securely loaded from an environment variable or key management service.
+
+---
+
+## Model
+
+<nav id="model" />
 
 ```js
 const { Configuration, OpenAIApi } = require("openai");
@@ -34,48 +87,91 @@ const completion = await openai.createChatCompletion({
 console.log(completion.data);
 ```
 
-Given a list of messages comprising a conversation, the model will return a response.
-
----
-
-## API key
-
-You'll need a _`OPENAI_API_KEY`_.
-
-The OpenAI API uses API keys for authentication. Visit your [API Keys](https://platform.openai.com/account/api-keys) page to retrieve the API key you'll use in your requests.
-
-**Remember that your API key is a secret!** Do not share it with others or expose it in any client-side code (browsers, apps). Production requests must be routed through your own backend server where your API key can be securely loaded from an environment variable or key management service.
-
----
-
-## Model
-
-```js
-
-```
-
 _`model`_ is a required field.
 
 It should be one of:
 
-- `gpt-4` June 27th, 2023 from gpt-4-0314 to gpt-4-0613
-- `gpt-4-0613`
-- `gpt-4-32k`
-- `gpt-4-32k-0613`
 - `gpt-3.5-turbo`
 - `gpt-3.5-turbo-0613`
 - `gpt-3.5-turbo-16k`
 - `gpt-3.5-turbo-16k-0613`
+- `gpt-4`
+- `gpt-4-0613`
+- `gpt-4-32k`
+- `gpt-4-32k-0613`
+
+If you don't know which one to use, start with `gpt-3.5-turbo`.
+
+June 27th, 2023 from gpt-4-0314 to gpt-4-0613
 
 `gpt-3.5-turbo` models are cheaper and faster.
-`gpt-4` models have broader general knowledge and advanced reasoning. You need to [ask for access](https://openai.com/waitlist/gpt-4-api) to use them.
+
+`gpt-4` models have broader general knowledge and advanced reasoning. But they are more expensive, slower, and you need to [ask for access](https://openai.com/waitlist/gpt-4-api) to use them.
 
 ---
 
 ## Messages
 
-```js focus=8:11
+<nav id="messages" />
 
+```js
+const { Configuration, OpenAIApi } = require("openai");
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+const completion = await openai.createChatCompletion({
+  // focus(1:16)
+  // link[3:7] #model
+  model: "gpt-3.5-turbo",
+  // link[3:10] #messages
+  messages: [
+    { role: "system", content: "You are a helpful assistant." },
+    { role: "user", content: "Hello world" },
+  ],
+  functions: [{ name: "foo", description: "foo bar baz", parameters: {} }],
+  function_call: "auto",
+  user: undefined,
+  stream: false,
+  temperature: 1,
+  top_p: 1,
+  n: 1,
+  max_tokens: Math.infinity,
+  presence_penalty: 0,
+  frequency_penalty: 0,
+  logit_bias: null,
+});
+console.log(completion.data);
 ```
+
+---
+
+## Functions
+
+<nav id="functions" />
+
+---
+
+## Function Call
+
+<nav id="function-call" />
+
+---
+
+## User
+
+<nav id="user" />
+
+---
+
+## Stream
+
+<nav id="stream" />
+
+---
+
+## Temperature
+
+<nav id="temperature" />
 
 </CH.Scrollycoding>
