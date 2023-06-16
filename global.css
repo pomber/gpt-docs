@@ -70,6 +70,7 @@ nav {
   text-decoration-style: dashed;
   text-decoration-color: #ff9bce;
   text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
 }
 
 .ch-code-inline-link:hover * {

@@ -6,7 +6,7 @@ This site offers an alternative take on the [official API reference](https://bet
 
 In its most basic form, the Chat Completion API receives a _`system`_ message (the prompt) and a _`user`_ message, and then returns an _`assistant`_ message responding to the user.
 
-```js focus=9:12,17:20 mark=11[30:42],19[14:55]
+```js focus=9:12,17:20 mark=11[30:42],19[14:49]
 // from ../snippets/start.js
 ```
 
@@ -16,7 +16,7 @@ In this example, we are using the OpenAI node library, but the focus of this gui
 
 ## Request and Response
 
-```js
+```js focus=7[54],8:24,25[1],28[30],29:47,48[1]
 // from ../snippets/base.js
 ```
 
@@ -148,9 +148,9 @@ Controls how the model responds to function calls. "none" means the model does n
 
 ---
 
-## Temperature
+## Sampling
 
-<nav id="temperature" />
+<nav id="sampling" />
 
 ```js focus=17
 // from ../snippets/base.js
@@ -165,6 +165,50 @@ A higher temperature (_`0.8`_ or _`1`_) makes the output more diverse and random
 ## Choices
 
 <nav id="choices" />
+
+---
+
+## Stop
+
+<nav id="stop" />
+
+---
+
+## Max Tokens
+
+<nav id="max-tokens" />
+
+---
+
+## Penalties
+
+<nav id="penalties" />
+
+---
+
+## Logit Bias
+
+<nav id="logit-bias" />
+
+---
+
+## Response
+
+<nav id="response" />
+
+---
+
+## Finish Reason
+
+<nav id="finish-reason" />
+
+---
+
+## Usage
+
+<nav id="usage" />
+
+TODO: find somewhere to put the github link
 
 [GitHub](https://github.com/pomber/gpt-completions-api-docs)
 

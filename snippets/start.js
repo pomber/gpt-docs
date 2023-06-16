@@ -16,7 +16,7 @@ const completion = await openai.createChatCompletion({
 console.log(completion.data.choices[0], {
   message: {
     role: "assistant",
-    content: "Hello there, how may I assist you today?",
+    content: "Hello! How may I assist you today?",
   },
   finish_reason: "stop",
 })
