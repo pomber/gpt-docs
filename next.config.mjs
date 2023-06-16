@@ -1,4 +1,5 @@
 import { remarkCodeHike } from "@code-hike/mdx";
+import theme from "./theme.mjs";
 
 import mdxConfig from "@next/mdx";
 
@@ -9,7 +10,7 @@ export default mdxConfig({
       [
         remarkCodeHike,
         {
-          theme: "github-from-css",
+          theme,
           staticMediaQuery: "not screen, (max-width: 1060px)",
         },
       ],
