@@ -65,6 +65,17 @@ nav {
   background: #161b22;
   opacity: 1;
 }
+
+.ch-code-inline-link {
+  text-decoration-style: dashed;
+  text-decoration-color: #ff9bce;
+  text-underline-offset: 3px;
+}
+
+.ch-code-inline-link:hover * {
+  color: #ffcee7 !important;
+}
+
 .ch-scrollycoding-step-content:first-child {
   margin-top: max(calc(50vh - 222px), 1rem);
 }
