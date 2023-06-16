@@ -1,17 +1,28 @@
 <CH.Scrollycoding>
 
-# OpenAI Chat Completion Unofficial Docs
+# OpenAI Chat Completion <br/> Unofficial Docs
 
-[Edit this page](https://pr.new/github.com/pomber/gpt-completions-api-docs/edit/main/pages/index.mdx) |
-[GitHub](https://github.com/pomber/gpt-completions-api-docs)
+This site offers an alternative take on the [official API reference](https://beta.openai.com/docs/api-reference/chat) and the [official GPT guide](https://platform.openai.com/docs/guides/gpt).
 
-OpenAI's GPT (generative pre-trained transformer) models have been trained to understand natural language and code. GPTs provide text outputs in response to their inputs. The inputs to GPTs are also referred to as "prompts". Designing a prompt is essentially how you “program” a GPT model, usually by providing instructions or some examples of how to successfully complete a task.
+In its most basic form, the Chat Completion API receives a _`system`_ message (the prompt) and a _`user`_ message, and then returns an _`assistant`_ message responding to the user.
 
-Given a list of messages comprising a conversation, the model will return a response.
+```js focus=9:12,17:20 mark=11[30:42],19[14:55]
+// from ../snippets/start.js
+```
+
+In this example, we are using the OpenAI node library, but the focus of this guide will be the request and response format, which is the same for the python library and the HTTP API.
+
+---
+
+## Request and Response
 
 ```js
 // from ../snippets/base.js
 ```
+
+Both the request and the response have lots of fields. Most are optional, some are required. Some only make sense in combination with others.
+
+**If you are interested in a particular field, you can click on it to jump to the section that describes it.**
 
 ---
 
@@ -154,5 +165,7 @@ A higher temperature (_`0.8`_ or _`1`_) makes the output more diverse and random
 ## Choices
 
 <nav id="choices" />
+
+[GitHub](https://github.com/pomber/gpt-completions-api-docs)
 
 </CH.Scrollycoding>
