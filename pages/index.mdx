@@ -141,6 +141,14 @@ Controls how the model responds to function calls. "none" means the model does n
 
 <nav id="temperature" />
 
+```js focus=17
+// from ../snippets/base.js
+```
+
+Controls the randomness of the model's output. This parameter is a decimal value typically ranging from _`0`_ to _`1`_. A lower temperature (_`0.1`_ or _`0.2`_) makes the output more deterministic and focused, with the model likely to choose only the most probable word at each step.
+
+A higher temperature (_`0.8`_ or _`1`_) makes the output more diverse and random, taking more chances in its choices of words.
+
 ---
 
 ## Choices
