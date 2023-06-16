@@ -78,7 +78,7 @@ nav {
 }
 
 .ch-scrollycoding-step-content:first-child {
-  margin-top: max(calc(50vh - 222px), 1rem);
+  margin-top: max(calc(50vh - 243px), 1rem);
 }
 .ch-scrollycoding-step-content:last-child {
   margin-bottom: max(calc(50vh - 110px), 1rem);

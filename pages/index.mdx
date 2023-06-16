@@ -2,6 +2,8 @@
 
 # OpenAI Chat Completion <br/> Unofficial Docs
 
+_This is a work in progress. If you want to contribute, here is the [GitHub repo](https://github.com/pomber/gpt-completions-api-docs)._
+
 This site offers an alternative take on the [official API reference](https://beta.openai.com/docs/api-reference/chat) and the [official GPT guide](https://platform.openai.com/docs/guides/gpt).
 
 In its most basic form, the Chat Completion API receives a _`system`_ message (the prompt) and a _`user`_ message, and then returns an _`assistant`_ message responding to the user.
@@ -93,6 +95,20 @@ Each message follows the format:
 ```
 
 The first message in the array is the prompt. And it's the only message with _`role: "system"`_.
+
+---
+
+## Assistant
+
+<nav id="assistant" />
+
+```js focus=9:14,38:41 mark=12[13:23]
+// from ../snippets/assistant.js
+```
+
+As you make subsequent requests, you should add the _`assistant`_ message from the response to the _`messages`_ array. This way, the model will have more context about the conversation.
+
+You can also send _`assistant`_ messages on the first request. This is useful to give the model examples of desired behavior.
 
 ---
 
@@ -201,6 +217,14 @@ A higher temperature (_`0.8`_ or _`1`_) makes the output more diverse and random
 ## Finish Reason
 
 <nav id="finish-reason" />
+
+Every response will include a `finish_reason`. The possible values for `finish_reason` are:
+
+- `stop`: API returned complete message, or a message terminated by one of the stop sequences provided via the [stop](https://platform.openai.com/docs/api-reference/chat/create#chat/create-stop) parameter
+- `length`: Incomplete model output due to [`max_tokens`](https://platform.openai.com/docs/api-reference/chat/create#chat/create-max_tokens) parameter or token limit
+- `function_call`: The model decided to call a function
+- `content_filter`: Omitted content due to a flag from our content filters
+- `null`: API response still in progress or incomplete
 
 ---
 
