@@ -22,7 +22,11 @@ In this example, we are using the OpenAI node library, but the focus of this gui
 // from ../snippets/base.js
 ```
 
-Both the request and the response have lots of fields. Most are optional, some are required. Some only make sense in combination with others.
+The goal of this guide is to help you understand all the fields in the request and response. There are a lot of fields. Most are optional, some are required. Some only make sense in combination with others.
+
+From the request, the _`model`_ and _`messages`_ fields are the most important (and also the ones that are required).
+
+From the response, the _`choices`_ field is the most important, that's where you'll find the _`assistant`_'s answer to the last _`user`_ message.
 
 **If you are interested in a particular field, you can click on it to jump to the section that describes it.**
 
@@ -36,9 +40,7 @@ Both the request and the response have lots of fields. Most are optional, some a
 // from ../snippets/base.js
 ```
 
-First you'll need the _`OPENAI_API_KEY`_.
-
-You need to sign up and visit your [API keys page](https://platform.openai.com/account/api-keys) to get it.
+First you'll need the _`OPENAI_API_KEY`_. That means you need to sign up if you haven't already, and then visit your [API keys page](https://platform.openai.com/account/api-keys) to get a key.
 
 **Remember that your API key is a secret!** Do not share it with others or expose it in any client-side code (browsers, apps). Production requests must be routed through your own backend server where your API key can be securely loaded from an environment variable or key management service.
 
@@ -52,7 +54,7 @@ You need to sign up and visit your [API keys page](https://platform.openai.com/a
 // from ../snippets/base.js
 ```
 
-_`model`_ is a required field, the name of the model to use. If you don't care about the model right now, start with `gpt-3.5-turbo-0613`.
+The first field from the request is the _`model`_. It's a string with the name of the model to use. If you don't care about the model right now, start with `gpt-3.5-turbo-0613`.
 
 To understand the differences between models, let's deconstruct a model name:
 
@@ -259,9 +261,5 @@ Every response will include a `finish_reason`. The possible values for `finish_r
 ## Usage
 
 <nav id="usage" />
-
-TODO: find somewhere to put the github link
-
-[GitHub](https://github.com/pomber/gpt-completions-api-docs)
 
 </CH.Scrollycoding>
