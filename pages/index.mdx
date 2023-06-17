@@ -111,20 +111,14 @@ These are the latest snapshots available today:
 // from ../snippets/base.js
 ```
 
-_`messages`_ is a required array. A list of messages comprising the conversation so far.
+This is the real body of your request.
 
-Each message follows the format:
+To understand _`messages`_, let's see the possible _`role`_ values:
 
-```js
-{
-  role: "system" | "user" | "assistant" | "function",
-  content: string | undefined,
-  name: string | undefined,
-  function_call: object | undefined,
-}
-```
-
-The first message in the array is the prompt. And it's the only message with _`role: "system"`_.
+- _`"system"`_ is the role for the first message, the prompt. It's the only message with this role. It's used by the developer to set the style, tone, format, etc. of the response.
+- _`"user"`_ these are the messages from the end user. Usually, after the `system` message, the rest of the messages alternate between `user` and `assistant`, ending with a `user` message.
+- _`"assistant"`_ these are the messages from the model. But you can also use them to give the model examples of desired behavior.
+- _`"function"`_ we'll talk about this [later](#functions).
 
 ---
 
@@ -136,9 +130,26 @@ The first message in the array is the prompt. And it's the only message with _`r
 // from ../snippets/assistant.js
 ```
 
-As you make subsequent requests, you should add the _`assistant`_ message from the response to the _`messages`_ array. This way, the model will have more context about the conversation.
+The model doesn't have memory, so after you receive the response, you should append the _`assistant`_ message to the _`messages`_ array before sending the next _`user`_ message.
 
-You can also send _`assistant`_ messages on the first request. This is useful to give the model examples of desired behavior.
+The other usage of the _`assistant`_ message is to give the model examples of the output you want. You provide a couple of _`user`_ messages and the corresponding _`assistant`_ messages, before sending the real _`user`_ message.
+
+```js
+messages: [
+  { role: "system", content: "You are a comedian" },
+  { role: "user", content: "A Forrest Gump pun" },
+  {
+    role: "assistant",
+    content: "What's Forrest Gump's password? 1forrest1",
+  },
+  { role: "user", content: "A calendar pun" },
+  {
+    role: "assistant",
+    content: "Can February March? No, but April May",
+  },
+  { role: "user", content: "A pun about AI" },
+]
+```
 
 ---
 
