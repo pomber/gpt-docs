@@ -33,6 +33,13 @@ nav {
   width: 0;
 }
 
+table {
+  margin: 0 -1rem;
+  background: #0d1117;
+  width: calc(100% + 2rem);
+  padding: 0 1rem;
+}
+
 /* code hike */
 
 .ch-scrollycoding {

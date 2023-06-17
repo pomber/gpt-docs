@@ -28,7 +28,7 @@ Both the request and the response have lots of fields. Most are optional, some a
 
 ---
 
-## API key
+## API Key
 
 <nav id="api-key" />
 
@@ -36,7 +36,9 @@ Both the request and the response have lots of fields. Most are optional, some a
 // from ../snippets/base.js
 ```
 
-The first thing you'll need is the _`OPENAI_API_KEY`_. Visit your [API Keys](https://platform.openai.com/account/api-keys) page to retrieve the API key you'll use in your requests.
+First you'll need the _`OPENAI_API_KEY`_.
+
+You need to sign up and visit your [API keys page](https://platform.openai.com/account/api-keys) to get it.
 
 **Remember that your API key is a secret!** Do not share it with others or expose it in any client-side code (browsers, apps). Production requests must be routed through your own backend server where your API key can be securely loaded from an environment variable or key management service.
 
@@ -46,30 +48,56 @@ The first thing you'll need is the _`OPENAI_API_KEY`_. Visit your [API Keys](htt
 
 <nav id="model" />
 
-```js focus=8
+```js focus=8,32
 // from ../snippets/base.js
 ```
 
-_`model`_ is a required field.
+_`model`_ is a required field, the name of the model to use. If you don't care about the model right now, start with `gpt-3.5-turbo-0613`.
 
-It should be one of:
+To understand the differences between models, let's deconstruct a model name:
+
+- **gpt-3.5-turbo**-16k-0613
+
+The first part is the model architecture. It could be `gpt-3.5-turbo` or `gpt-4`. `gpt-3.5-turbo` is [cheaper](https://openai.com/pricing) and faster. `gpt-4` is more powerful and it's not available by default, you need to [ask for access](https://openai.com/waitlist/gpt-4-api) to use it.
+
+- gpt-3.5-turbo-**16k**-0613
+
+The next part is the context length in tokens. Tokens can be thought of as pieces of words. A rule of thumb is 100 tokens is about 75 words in english. 16k is the total amount of tokens that the model support per request, not only in the input (`messages` and `functions`), it also includes the output (`message`).
+
+The four options are:
+
+| model             |       context |
+| ----------------- | ------------: |
+| gpt-3.5-turbo     |  4,096 tokens |
+| gpt-3.5-turbo-16k | 16,384 tokens |
+| gpt-4             |  8,192 tokens |
+| gpt-4-32k         | 32,768 tokens |
+
+Models with larger context are more expensive.
+
+- gpt-3.5-turbo-16k-**0613**
+
+The last part of the model name is the snapshot date.
+
+For example, we have:
 
 - `gpt-3.5-turbo`
+- `gpt-3.5-turbo-0301`
 - `gpt-3.5-turbo-0613`
-- `gpt-3.5-turbo-16k`
+
+Until June 27th, `gpt-3.5-turbo` will be the same as `gpt-3.5-turbo-0301`. After June 27th, `gpt-3.5-turbo` will point to `gpt-3.5-turbo-0613`.
+In September 13th, `gpt-3.5-turbo-0301` will be depreacated.
+
+The same upgrade and deprecation cycle will happen to the `gpt-3.5-turbo-0613` snapshot eventually. You can read more about [continuous model upgrades](https://platform.openai.com/docs/models/continuous-model-upgrades) and [model deprecation](https://platform.openai.com/docs/deprecations).
+
+In my opinion, it's better to use the snapshot date in the model name, so you can control when to upgrade to a new snapshot.
+
+These are the latest snapshots available today:
+
+- `gpt-3.5-turbo-0613`
 - `gpt-3.5-turbo-16k-0613`
-- `gpt-4`
 - `gpt-4-0613`
-- `gpt-4-32k`
 - `gpt-4-32k-0613`
-
-If you don't know which one to use, start with `gpt-3.5-turbo`.
-
-June 27th, 2023 from gpt-4-0314 to gpt-4-0613
-
-`gpt-3.5-turbo` models are cheaper and faster.
-
-`gpt-4` models have broader general knowledge and advanced reasoning. But they are more expensive, slower, and you need to [ask for access](https://openai.com/waitlist/gpt-4-api) to use them.
 
 ---
 
