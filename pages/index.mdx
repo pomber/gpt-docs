@@ -157,25 +157,23 @@ messages: [
 
 <nav id="functions" />
 
-```js focus=13:29
+```js focus=11,13:26 mark=11[30:51],15[13:28]
 // from ../snippets/functions.js
 ```
 
-An optional list of functions the model may generate JSON inputs for.
+GPT wasn't very good at generating data in a predefined format. So the latest models come with an new (optional) input called _`functions`_.
 
-The latest models (`gpt-3.5-turbo-0613` and `gpt-4-0613`) have been fine-tuned to both detect when a function should to be called (depending on the input) and to respond with JSON that adheres to the function signature. With this capability also comes potential risks. We strongly recommend building in user confirmation flows before taking actions that impact the world on behalf of users (sending an email, posting something online, making a purchase, etc).
+You can pass a list of functions, each with a _`name`_, _`description`_, and _`parameters`_ (as a [JSON Schema](https://json-schema.org/understanding-json-schema/) object).
 
----
+In the example, we are passing the schema of a _`getCityWeather`_ function. The typescript signature of the function would be something like:
 
-## Parameters
-
-<nav id="parameters" />
-
-```js focus=17:26
-// from ../snippets/functions.js
+{/* prettier-ignore */}
+```ts
+function getCityWeather(params: {
+  city: string, 
+  unit?: "C" | "F",
+}) 
 ```
-
-The parameters the functions accepts, described as a JSON Schema object. See the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
 
 ---
 
@@ -183,13 +181,83 @@ The parameters the functions accepts, described as a JSON Schema object. See the
 
 <nav id="function-call" />
 
-```js focus=30,50:58
+```js focus=27,47:55
 // from ../snippets/functions.js
 ```
 
-Controls how the model responds to function calls. "none" means the model does not call a function and responds to the end-user. `"auto"` means the model can pick between an end-user or calling a function. Specifying a particular function via _`{"name": "my_function"}`_ forces the model to call that function.
+The model is trained to detect when to reply with content as usual and when to reply with a function call.
 
-`"none"` is the default when no functions are present. `"auto"` is the default if functions are present.
+When it chooses to reply with a function call, the response will have a message from the _`assistant`_ with the _`function_call`_ property instead of the usual _`content`_. _(Also, the `finish_reason` should be `"function_call"`, but in my tests it sometimes comes as `"stop"`.)_
+
+The _`function_call`_ in the response message is an object with two properties:
+
+- the _`name`_ of the function that the model decided to call
+- the _`arguments`_ for that function, which is a stringified JSON, so you need to `JSON.parse` it before using it (be aware that the JSON could be invalid or may not adhere to the schema)
+
+If you want to **force the model to call a particular function**, you can pass the name of the function to the _`function_call`_ field in the request (not to be confused with the `function_call` field in the response message). You need to pass it inside an object like this:
+
+{/* prettier-ignore */}
+```js
+function_call: { name: "getCityWeather" }
+```
+
+The other two options for the `function_call` field are:
+
+- _`function_call: "auto"`_ which is the default behavior, the model will decide if it should call a function or not
+- _`function_call: "none"`_ which forces the model to reply with content as usual
+
+---
+
+## Function Role
+
+<nav id="function-role" />
+
+```js focus=12:24,36:39 mark=23[16:21],38[18:56]
+// from ../snippets/function-role.js
+```
+
+Once you have the `function_call` provided by the model, you can run the function (be careful here, this may be dangerous depending on the function you are calling) and append the result to the _`messages`_ array (after the [_`assistant`_ message](focus://12:19)).
+
+You need to set the _`role`_ set to _`function`_, the _`name`_ set to the function name, and the _`content`_ set to the result of the function.
+
+Now that the model has seen the result of the function, it will be able to use it to generate the next response.
+
+---
+
+## Structured Data
+
+<nav id="structured-data" />
+
+```js focus=13:26
+// from ../snippets/functions.js
+```
+
+_`functions`_ don't have to be real functions, you can use them to turn any text into structured data.
+
+For example, if you want to extract the named entities from a text, you can make up a `showNamedEntities` function:
+
+```ts
+function showNamedEntities(params: {
+  entities: { name: string; type: string }[]
+})
+```
+
+Then if you pass a message like _`{ role: "user", content: "Messi leaving PSG" }`_ the model will reply with a call to the `showNamedEntities` function:
+
+```js
+{
+  role: "assistant",
+  function_call: {
+    name: "showNamedEntities",
+    arguments: `{
+      entities: [
+        { name: "Messi", type: "PERSON" },
+        { name: "PSG", type: "ORG" },
+      ],
+    }`,
+  },
+}
+```
 
 ---
 

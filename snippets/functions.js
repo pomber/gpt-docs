@@ -1,34 +1,30 @@
-const { Configuration, OpenAIApi } = require("openai");
+const { Configuration, OpenAIApi } = require("openai")
 const configuration = new Configuration({
   // link[3:8] #api-key
   apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+})
+const openai = new OpenAIApi(configuration)
 
 const completion = await openai.createChatCompletion({
   // link[3:7] #model
-  model: "gpt-3.5-turbo",
+  model: "gpt-3.5-turbo-0613",
   // link[3:10] #messages
   messages: [
     { role: "system", content: "You are a helpful assistant" },
-    { role: "user", content: "Hello world" },
+    { role: "user", content: "It's hot in Valencia" },
   ],
   // link[3:11] #functions
   functions: [
     {
-      name: "get_current_weather",
-      description: "Get the current weather in a given location",
-      // link[7:16] #parameters
+      name: "getCityWeather",
+      description: "Get the weather in a given city",
       parameters: {
         type: "object",
         properties: {
-          location: {
-            type: "string",
-            description: "A city, e.g. San Francisco",
-          },
+          city: { type: "string", description: "The city" },
           unit: { type: "string", enum: ["C", "F"] },
         },
-        required: ["location"],
+        required: ["city"],
       },
     },
   ],
@@ -47,8 +43,8 @@ const completion = await openai.createChatCompletion({
   max_tokens: Math.infinity,
   presence_penalty: 0,
   frequency_penalty: 0,
-  logit_bias: null,
-});
+  logit_bias: undefined,
+})
 
 // result:
 console.log(completion.data, {
@@ -61,10 +57,10 @@ console.log(completion.data, {
       index: 0,
       message: {
         role: "assistant",
-        content: None,
+        content: null,
         function_call: {
-          name: "get_current_weather",
-          arguments: '{ "location": "Valencia", "format": "C"}',
+          name: "getCityWeather",
+          arguments: '{ "city": "Valencia" }',
         },
       },
       finish_reason: "function_call",
@@ -75,4 +71,4 @@ console.log(completion.data, {
     completion_tokens: 12,
     total_tokens: 21,
   },
-});
+})
