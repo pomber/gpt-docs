@@ -26,10 +26,16 @@ main {
   line-height: 1.6;
 }
 
-nav {
+section:not(.ch-scrollycoding-static) nav {
   position: absolute;
   height: 100%;
   top: min(calc(50% - 50vh), -4px);
+  width: 0;
+}
+
+section.ch-scrollycoding-static nav {
+  position: absolute;
+  transform: translateY(-80px);
   width: 0;
 }
 
