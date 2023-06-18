@@ -118,7 +118,7 @@ To understand _`messages`_, let's see the possible _`role`_ values:
 - _`"system"`_ is the role for the first message, the prompt. It's the only message with this role. It's used by the developer to set the style, tone, format, etc. of the response.
 - _`"user"`_ these are the messages from the end user. Usually, after the `system` message, the rest of the messages alternate between `user` and `assistant`, ending with a `user` message.
 - _`"assistant"`_ these are the messages from the model. But you can also use them to give the model examples of desired behavior.
-- _`"function"`_ we'll talk about this [later](#functions).
+- _`"function"`_ we'll talk about this [later](#function-role).
 
 ---
 
@@ -126,7 +126,7 @@ To understand _`messages`_, let's see the possible _`role`_ values:
 
 <nav id="assistant" />
 
-```js focus=9:14,38:41 mark=12[13:23]
+```js focus=9:14,26:29 mark=12[13:23]
 // from ../snippets/assistant.js
 ```
 
@@ -181,20 +181,20 @@ function getCityWeather(params: {
 
 <nav id="function-call" />
 
-```js focus=27,47:55
+```js focus=27,39:47 mark=42[9:21]
 // from ../snippets/functions.js
 ```
 
 The model is trained to detect when to reply with content as usual and when to reply with a function call.
 
-When it chooses to reply with a function call, the response will have a message from the _`assistant`_ with the _`function_call`_ property instead of the usual _`content`_. _(Also, the `finish_reason` should be `"function_call"`, but in my tests it sometimes comes as `"stop"`.)_
+When it chooses to reply with a function call, **the response will have a message from the _`assistant`_ with the _`function_call`_ property instead of the usual _`content`_**. _(Also, the `finish_reason` should be `"function_call"`, but in my tests it sometimes comes as `"stop"`.)_
 
 The _`function_call`_ in the response message is an object with two properties:
 
 - the _`name`_ of the function that the model decided to call
 - the _`arguments`_ for that function, which is a stringified JSON, so you need to `JSON.parse` it before using it (be aware that the JSON could be invalid or may not adhere to the schema)
 
-If you want to **force the model to call a particular function**, you can pass the name of the function to the _`function_call`_ field in the request (not to be confused with the `function_call` field in the response message). You need to pass it inside an object like this:
+If you want to **force the model to call a particular function**, you can pass the name of the function to the [_`function_call`_ field in the request](focus://27) (not to be confused with the `function_call` field in the response message). You need to pass it inside an object like this:
 
 {/* prettier-ignore */}
 ```js
@@ -212,11 +212,11 @@ The other two options for the `function_call` field are:
 
 <nav id="function-role" />
 
-```js focus=12:24,36:39 mark=23[16:21],38[18:56]
+```js focus=12:24,37:40 mark=21[7:22],23[16:21],39[18:56]
 // from ../snippets/function-role.js
 ```
 
-Once you have the `function_call` provided by the model, you can run the function (be careful here, this may be dangerous depending on the function you are calling) and append the result to the _`messages`_ array (after the [_`assistant`_ message](focus://12:19)).
+Once you have the `function_call` provided by the model, you can **run the function** (be careful here, this may be dangerous depending on the function you are calling) and **append the result** to the _`messages`_ array (after the [_`assistant`_ message](focus://12:19)).
 
 You need to set the _`role`_ set to _`function`_, the _`name`_ set to the function name, and the _`content`_ set to the result of the function.
 
@@ -228,8 +228,8 @@ Now that the model has seen the result of the function, it will be able to use i
 
 <nav id="structured-data" />
 
-```js focus=13:26
-// from ../snippets/functions.js
+```js focus=11,13:35
+// from ../snippets/structured-data.js
 ```
 
 _`functions`_ don't have to be real functions, you can use them to turn any text into structured data.
@@ -242,11 +242,12 @@ function showNamedEntities(params: {
 })
 ```
 
-Then if you pass a message like _`{ role: "user", content: "Messi leaving PSG" }`_ the model will reply with a call to the `showNamedEntities` function:
+Then if you pass a message like _`{ role: "user", content: "Messi leaving PSG" }`_, the model will reply with a call to the `showNamedEntities` function:
 
 ```js
 {
   role: "assistant",
+  content: null,
   function_call: {
     name: "showNamedEntities",
     arguments: `{
@@ -258,6 +259,8 @@ Then if you pass a message like _`{ role: "user", content: "Messi leaving PSG" }
   },
 }
 ```
+
+And now you can parse and use that data in your app without telling the model that there is no real function called _`showNamedEntities`_.
 
 ---
 

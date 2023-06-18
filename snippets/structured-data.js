@@ -11,20 +11,29 @@ const completion = await openai.createChatCompletion({
   // link[3:10] #messages
   messages: [
     { role: "system", content: "You are a helpful assistant" },
-    { role: "user", content: "It's hot in Valencia" },
+    { role: "user", content: "Messi leaving PSG" },
   ],
   // link[3:11] #functions
   functions: [
     {
-      name: "getCityWeather",
-      description: "Get the weather in a given city",
+      name: "showNamedEntities",
+      description: "Show the named entities",
       parameters: {
         type: "object",
         properties: {
-          city: { type: "string", description: "The city" },
-          unit: { type: "string", enum: ["C", "F"] },
+          entities: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                name: { type: "string" },
+                type: { type: "string" },
+              },
+              required: ["name", "type"],
+            },
+          },
         },
-        required: ["city"],
+        required: ["entities"],
       },
     },
   ],
@@ -50,8 +59,13 @@ console.log(completion.data, {
         role: "assistant",
         content: null,
         function_call: {
-          name: "getCityWeather",
-          arguments: '{ "city": "Valencia" }',
+          name: "showNamedEntities",
+          arguments: `{
+            entities: [
+              { name: "Messi", type: "PERSON" },
+              { name: "PSG", type: "ORG" },
+            ],
+          }`,
         },
       },
       finish_reason: "function_call",

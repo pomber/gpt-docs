@@ -30,9 +30,14 @@ const completion = await openai.createChatCompletion({
 
 // result:
 console.log(completion.data, {
+  // link[3:5] #response
   id: "chatcmpl-123",
+  // link[3:8] #response
   object: "chat.completion",
+  // link[3:9] #response
   created: 1677652288,
+  // link[3:7] #response
+  model: "gpt-3.5-turbo-0613",
   // link[3:9] #choices
   choices: [
     {
