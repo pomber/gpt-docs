@@ -46,6 +46,10 @@ table {
   padding: 0 1rem;
 }
 
+.custom-mark {
+  background: rgba(126, 231, 135, 0.2) !important;
+}
+
 /* code hike */
 
 .ch-scrollycoding {

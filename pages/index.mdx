@@ -12,7 +12,7 @@ In its most basic form, the Chat Completion API receives a _`system`_ message (t
 // from ../snippets/start.js
 ```
 
-In this example, we are using the OpenAI node library, but the focus of this guide will be the request and response format, which is the same for the python library and the HTTP API.
+In this example, we are using the [OpenAI node library](https://github.com/openai/openai-node), but the focus of this guide will be the request and response format, which is the same for the [python library](https://github.com/openai/openai-python) and the HTTP API.
 
 ---
 
@@ -268,11 +268,69 @@ And now you can parse and use that data in your app without telling the model th
 
 <nav id="user" />
 
+```js focus=11,15
+// from ../snippets/base.js
+```
+
+You can use the _`user`_ field to pass an ID of the end-user that authored the message.
+
+If OpenAI detects any abuse in your requests [they'll send you](https://platform.openai.com/docs/guides/safety-best-practices) the problematic _`user`_ as part of the notice. As far as I know, that's the only use for this field.
+
 ---
 
 ## Stream
 
 <nav id="stream" />
+
+```js focus=14,17:24
+// from ../snippets/stream.js
+```
+
+How you process the stream depends on your tech stack (this example is using Node.js)
+
+First chunk
+
+```json
+data: {
+  "id": "chatcmpl-xxxx",
+  "object": "chat.completion.chunk",
+  "created": 1688198627,
+  "model": "gpt-3.5-turbo-0613",
+  "choices":[
+    {
+      "index":0,
+      "delta": {"role": "assistant", "content": ""},
+      "finish_reason": null
+    }
+  ]
+}
+```
+
+middle chunk
+
+```json
+data: {
+  ...
+  "choices":[{
+    "index": 0,
+    "delta": {"content": "Hello"},
+    "finish_reason": null
+  }]
+}
+```
+
+Next
+
+```json
+data: {
+  ...
+  "choices":[{
+    "index": 0,
+    "delta": {},
+    "finish_reason":"stop"
+  }]
+}
+```
 
 ---
 
