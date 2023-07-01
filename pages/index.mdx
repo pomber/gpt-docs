@@ -458,7 +458,7 @@ data: {
 
 After that you'll receive one last chunk with the string _`"data: [DONE]"`_.
 
-One thing we lose with streaming is the `usage` field. So if you need to know how many tokens the request used you'll need to count them yourself. It's a shame that OpenAI doesn't include it in the last chunk.
+One thing we lose with streaming is the [`usage`](#usage) field. So if you need to know how many tokens the request used you'll need to count them yourself. It's a shame that OpenAI doesn't include it in the last chunk.
 
 ---
 
@@ -466,19 +466,35 @@ One thing we lose with streaming is the `usage` field. So if you need to know ho
 
 <nav id="sampling" />
 
-```js focus=17
+```js focus=17:18
 // from ../snippets/base.js
 ```
 
-Controls the randomness of the model's output. This parameter is a decimal value typically ranging from _`0`_ to _`1`_. A lower temperature (_`0.1`_ or _`0.2`_) makes the output more deterministic and focused, with the model likely to choose only the most probable word at each step.
+To control the randomness of the model's output you can use either the _`temperature`_ or _`top_p`_ parameters.
 
-A higher temperature (_`0.8`_ or _`1`_) makes the output more diverse and random, taking more chances in its choices of words.
+_`temperature`_ accept values between `0` and `2`. The default is `1`, higher values means more random answers. Lower values means more determinism. Use `0` if you want always the same answers for the same input, but be aware that there's still chance for randomness.
+
+_`top_p`_ accept values between `0` and `1`. Same as before, lower values means less variation. The default is `1`.
+
+OpenAI says it's not recommended to use both parameters at the same time. No idea why.
 
 ---
 
 ## Choices
 
 <nav id="choices" />
+
+```js focus=14,19:30 mark=14[3:6]
+// from ../snippets/choices.js
+```
+
+You can use the _`n`_ parameter to get more than one response.
+
+Each response will be a different object inside the _`choices`_ array.
+
+Note that the content of each choice may be the same, specially for short answer or if you're using a low _`temperature`_.
+
+The _`index`_ field may seem useless, but it's actually useful when using _`n`_ together with streaming. Each chunk will include content for one of the choices, and the _`index`_ field will tell you which one.
 
 ---
 
