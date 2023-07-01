@@ -47,7 +47,7 @@ table {
 }
 
 .custom-mark {
-  background: rgba(126, 231, 135, 0.2) !important;
+  background: rgba(210, 168, 255, 0.2) !important;
 }
 
 /* code hike */
@@ -103,6 +103,7 @@ table {
 
 .ch-scrollycoding-content {
   padding-left: 1rem;
+  min-width: 0;
 }
 .ch-scrollycoding-content .ch-codeblock {
   border-radius: 0;
@@ -117,4 +118,21 @@ table {
 .ch-codegroup,
 .ch-preview {
   box-shadow: none;
+}
+
+.ch-slideshow-slide {
+  aspect-ratio: unset;
+}
+.ch-slideshow-notes {
+  border: none;
+  margin-top: 0 !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+.ch-slideshow-note {
+  display: none;
+}
+
+.break-all .ch-inline-code > code > * {
+  word-break: break-all;
 }

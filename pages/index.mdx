@@ -286,31 +286,38 @@ If OpenAI detects any abuse in your requests [they'll send you](https://platform
 // from ../snippets/stream.js
 ```
 
-How you process the stream depends on your tech stack (this example is using Node.js)
+With _`stream: true`_ we can start showing the response while it's still being generated, without having to wait for the whole response.
 
-First chunk
+OpenAI uses [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) for the streaming. How you process the stream depends on your tech stack (this example is using Node.js). But the idea is the same, you receive a stream of chunks.
 
-```json
+Chunks are strings that starts with `data:` followed by an object. The first chunk looks like this: <span className="break-all"> _`'data: {"id":"chatcmpl-xxxx","object":"chat.completion.chunk","created":1688198627,"model":"gpt-3.5-turbo-0613","choices":[{"index":0,"delta":{"role":"assistant","content":""},"finish_reason":null}]}'`_ </span>
+
+Here you can see all the chunks from the example formatted for readability:
+
+<CH.Slideshow>
+
+```js
 data: {
   "id": "chatcmpl-xxxx",
   "object": "chat.completion.chunk",
   "created": 1688198627,
   "model": "gpt-3.5-turbo-0613",
-  "choices":[
-    {
-      "index":0,
-      "delta": {"role": "assistant", "content": ""},
-      "finish_reason": null
-    }
-  ]
+  "choices":[{
+    "index": 0,
+    "delta": {"role": "assistant", "content": ""},
+    "finish_reason": null
+  }]
 }
 ```
 
-middle chunk
+---
 
-```json
+```js focus=8 mark=8[26:32]
 data: {
-  ...
+  "id": "chatcmpl-xxxx",
+  "object": "chat.completion.chunk",
+  "created": 1688198627,
+  "model": "gpt-3.5-turbo-0613",
   "choices":[{
     "index": 0,
     "delta": {"content": "Hello"},
@@ -319,18 +326,139 @@ data: {
 }
 ```
 
-Next
+---
 
-```json
+```js focus=8 mark=8[26:28]
 data: {
-  ...
+  "id": "chatcmpl-xxxx",
+  "object": "chat.completion.chunk",
+  "created": 1688198627,
+  "model": "gpt-3.5-turbo-0613",
   "choices":[{
     "index": 0,
-    "delta": {},
-    "finish_reason":"stop"
+    "delta": {"content": "!"},
+    "finish_reason": null
   }]
 }
 ```
+
+---
+
+```js focus=8 mark=8[26:31]
+data: {
+  "id": "chatcmpl-xxxx",
+  "object": "chat.completion.chunk",
+  "created": 1688198627,
+  "model": "gpt-3.5-turbo-0613",
+  "choices":[{
+    "index": 0,
+    "delta": {"content": " How"},
+    "finish_reason": null
+  }]
+}
+```
+
+---
+
+```js focus=8 mark=8[26:31]
+data: {
+  "id": "chatcmpl-xxxx",
+  "object": "chat.completion.chunk",
+  "created": 1688198627,
+  "model": "gpt-3.5-turbo-0613",
+  "choices":[{
+    "index": 0,
+    "delta": {"content": " can"},
+    "finish_reason": null
+  }]
+}
+```
+
+---
+
+```js focus=8 mark=8[26:29]
+data: {
+  "id": "chatcmpl-xxxx",
+  "object": "chat.completion.chunk",
+  "created": 1688198627,
+  "model": "gpt-3.5-turbo-0613",
+  "choices":[{
+    "index": 0,
+    "delta": {"content": " I"},
+    "finish_reason": null
+  }]
+}
+```
+
+---
+
+```js focus=8 mark=8[26:34]
+data: {
+  "id": "chatcmpl-xxxx",
+  "object": "chat.completion.chunk",
+  "created": 1688198627,
+  "model": "gpt-3.5-turbo-0613",
+  "choices":[{
+    "index": 0,
+    "delta": {"content": " assist"},
+    "finish_reason": null
+  }]
+}
+```
+
+---
+
+```js focus=8 mark=8[26:31]
+data: {
+  "id": "chatcmpl-xxxx",
+  "object": "chat.completion.chunk",
+  "created": 1688198627,
+  "model": "gpt-3.5-turbo-0613",
+  "choices":[{
+    "index": 0,
+    "delta": {"content": " you"},
+    "finish_reason": null
+  }]
+}
+```
+
+---
+
+```js focus=8 mark=8[26:29]
+data: {
+  "id": "chatcmpl-xxxx",
+  "object": "chat.completion.chunk",
+  "created": 1688198627,
+  "model": "gpt-3.5-turbo-0613",
+  "choices":[{
+    "index": 0,
+    "delta": {"content": " ?"},
+    "finish_reason": null
+  }]
+}
+```
+
+---
+
+```js focus=8:9 mark=9[22:27]
+data: {
+  "id": "chatcmpl-xxxx",
+  "object": "chat.completion.chunk",
+  "created": 1688198627,
+  "model": "gpt-3.5-turbo-0613",
+  "choices":[{
+    "index": 0,
+    "delta": {},
+    "finish_reason": "stop"
+  }]
+}
+```
+
+</CH.Slideshow>
+
+After that you'll receive one last chunk with the string _`"data: [DONE]"`_.
+
+One thing we lose with streaming is the `usage` field. So if you need to know how many tokens the request used you'll need to count them yourself. It's a shame that OpenAI doesn't include it in the last chunk.
 
 ---
 
