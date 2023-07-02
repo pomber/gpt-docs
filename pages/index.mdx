@@ -560,6 +560,25 @@ If I had to choose, I'd pick _`presence_penalty`_. _`frequency_penalty`_ might p
 
 <nav id="logit-bias" />
 
+You can penalize or encourage specific tokens by using the _`logit_bias`_ parameter.
+
+```js focus=24
+// from ../snippets/base.js
+```
+
+_`logit_bias`_ is an object where the keys are token ids and values are the bias. The bias is a number between _`-100`_ and _`100`_. Like this:
+
+```js
+logit_bias: {
+  65515: -5,
+  71105: 10
+}
+```
+
+A bias closer to _`-100`_ will make the model avoid the token, while a value closer to _`100`_ will make the model more likely to use the token (well, if you use _`100`_ the model will probably repeat that token until the token limit is reached).
+
+Since the keys are ids, you'll need a [tool to get the token id](https://tiktokenizer.vercel.app/) from a string.
+
 ---
 
 ## Response
