@@ -502,11 +502,37 @@ The _`index`_ field may seem useless, but it's actually useful when using _`n`_ 
 
 <nav id="stop" />
 
+```js focus=10,11,13,22:28 mark=13[10:13]
+// from ../snippets/stop.js
+```
+
+_`stop`_ is a list of strings (case-sensitive) that will tell the model to stop generating text when it finds one of them. You can provide up to 4 stop sequences.
+
+The stop sequences aren't included in the response.
+
+Providing a _`stop`_ list won't make the answer longer, the model will stop naturally if it doesn't find any of the stop sequences.
+
 ---
 
 ## Max Tokens
 
 <nav id="max-tokens" />
+
+```js focus=10,11,13,21:25,30 mark=13[3:15],25[22:29]
+// from ../snippets/maxtokens.js
+```
+
+Another way to limit the length of the response is to use the _`max_tokens`_ parameter.
+
+The model will start generating text as usual, but it will count the output tokens and stop when it reaches the given limit. Only output tokens are counted towards the limit.
+
+In the example, the five tokens are:
+
+```json
+["1", ".", " Lionel", " Messi", "\n"]
+```
+
+You can use the _`finish_reason`_ field to know if the model stopped naturally (_`finish_reason:`_ _`"stop"`_) or because of the token limit (_`finish_reason:`_ _`"length"`_).
 
 ---
 
