@@ -540,6 +540,20 @@ You can use the _`finish_reason`_ field to know if the model stopped naturally (
 
 <nav id="penalties" />
 
+To avoid the model from repeating itself too much you can use the _`presence_penalty`_ and _`frequency_penalty`_ parameters.
+
+Both are numbers between _`-2.0`_ and _`2.0`_ and default to _`0`_.
+
+```js focus=22:23
+// from ../snippets/base.js
+```
+
+A positive _`presence_penalty`_ makes it less likely for the model to repeat a token that has already been generated. The higher the penalty, the less likely a token will be repeated.
+
+_`frequency_penalty`_ is similar, but the penalty increase every time the token is generated.
+
+If I had to choose, I'd pick _`presence_penalty`_. _`frequency_penalty`_ might penalize too much tokens that repeat often, such as punctuation and articles.
+
 ---
 
 ## Logit Bias
@@ -569,6 +583,12 @@ Every response will include a `finish_reason`. The possible values for `finish_r
 ---
 
 ## Usage
+
+<nav id="usage" />
+
+---
+
+## Errors
 
 <nav id="usage" />
 
