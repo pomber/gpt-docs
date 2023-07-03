@@ -585,6 +585,17 @@ Since the keys are ids, you'll need a [tool to get the token id](https://tiktoke
 
 <nav id="response" />
 
+```js focus=29:32
+// from ../snippets/base.js
+```
+
+In the response, in addition to the _`choices`_ array, you'll get some extra fields:
+
+- _`id`_: The unique id OpenAI gives to the response.
+- _`object`_: Always _`"chat.completion"`_.
+- _`created`_: The timestamp when the response was created. In case of streaming, this will stay the same for all chunks.
+- _`model`_: The model used to generate the response. This is the full name of the model including the snapshot. For example if you used _`"gpt-3.5-turbo"`_ in your request, the response will be _`model: "gpt-3.5-turbo-0613"`_.
+
 ---
 
 ## Finish Reason
@@ -610,5 +621,7 @@ Every response will include a `finish_reason`. The possible values for `finish_r
 ## Errors
 
 <nav id="usage" />
+
+https://platform.openai.com/docs/guides/error-codes/api-errors
 
 </CH.Scrollycoding>
