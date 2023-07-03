@@ -1,4 +1,4 @@
-# OpenAI Chat Completion Unofficial Docs
+# GPT API Unofficial Docs
 
 Unofficial docs for the [OpenAI Chat Completion API](https://platform.openai.com/docs/api-reference/chat).
 
