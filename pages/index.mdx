@@ -619,6 +619,48 @@ Every response will include a _`finish_reason`_. This field will tell you why th
 
 <nav id="usage" />
 
+```js focus=43:47
+// from ../snippets/base.js
+```
+
+The _`usage`_ field has information about the number of tokens used by the request (_`prompt_tokens`_) and the response (_`completion_tokens`_). This is important because those are the two numbers that will be used to calculate the cost of the request.
+
+_`prompt_tokens`_ includes the tokens from all the content passed in the _`messages`_ and _`functions`_ fields.
+
+_`completion_tokens`_ includes the tokens from all the _`choices`_ in the response.
+
+Current [prices](https://openai.com/pricing) per 1,000 tokens:
+
+| Model             | Prompt  | Completion |
+| :---------------- | :------ | :--------- |
+| gpt-3.5-turbo     | $0.0015 | $0.002     |
+| gpt-3.5-turbo-16k | $0.003  | $0.004     |
+| gpt-4             | $0.03   | $0.06      |
+| gpt-4-32k         | $0.06   | $0.12      |
+
+Let's say we have this usage in a GPT-4 request:
+
+```json
+{
+  "model": "gpt-4-0613",
+  "usage": {
+    "prompt_tokens": 100,
+    "completion_tokens": 150
+  }
+}
+```
+
+The cost of the request is $0.012:
+
+```js
+// prompt cost:
+100 * 0.03 / 1000 +
+// completion cost:
+150 * 0.06 / 1000
+// total cost:
+= 0.012
+```
+
 ---
 
 ## Errors

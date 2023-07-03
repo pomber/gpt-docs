@@ -49,6 +49,7 @@ console.log(completion.data, {
       finish_reason: "stop",
     },
   ],
+  // link[3:7] #usage
   usage: {
     prompt_tokens: 9,
     completion_tokens: 12,
