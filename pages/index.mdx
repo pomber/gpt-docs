@@ -602,13 +602,16 @@ In the response, in addition to the _`choices`_ array, you'll get some extra fie
 
 <nav id="finish-reason" />
 
-Every response will include a `finish_reason`. The possible values for `finish_reason` are:
+```js focus=33,40,42
+// from ../snippets/base.js
+```
 
-- `stop`: API returned complete message, or a message terminated by one of the stop sequences provided via the [stop](https://platform.openai.com/docs/api-reference/chat/create#chat/create-stop) parameter
-- `length`: Incomplete model output due to [`max_tokens`](https://platform.openai.com/docs/api-reference/chat/create#chat/create-max_tokens) parameter or token limit
-- `function_call`: The model decided to call a function
-- `content_filter`: Omitted content due to a flag from our content filters
-- `null`: API response still in progress or incomplete
+Every response will include a _`finish_reason`_. This field will tell you why the model stopped generating text. The possible reasons are:
+
+- _`"stop"`_: The model returned a complete response, or it was stopped by a [`stop`](#stop) sequence.
+- _`"length"`_: Reached the token limit set by [`max_tokens`](#max-tokens) or by the context limit of the model.
+- _`"function_call"`_: The model decided to call a function.
+- _`null`_: The response is still in progress.
 
 ---
 
