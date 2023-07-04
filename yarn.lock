@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@code-hike/lighter/-/lighter-0.7.0.tgz#7bb7d59631237d7d2e82434c3ea6fe1875813cb0"
   integrity sha512-64O07rIORKQLB+5T/GKAmKcD9sC0N9yHFJXa0Hs+0Aee1G+I4bSXxTccuDFP6c/G/3h5Pk7yv7PoX9/SpzaeiQ==
 
-"@code-hike/mdx@^0.9.0":
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/@code-hike/mdx/-/mdx-0.9.0.tgz#fe592887dc91b46374d9f7c176eb07e65fd9e2e3"
-  integrity sha512-0wg68ZCjVWAkWT4gBUZJ8Mwktjen/XeWyqBQCrhA2IZSbZZnMYsEI6JJEFb/nZoNI3comB3JdxPLykZRq3qT2A==
+"@code-hike/mdx@0.9.1--canary.396.08be59d.0":
+  version "0.9.1--canary.396.08be59d.0"
+  resolved "https://registry.yarnpkg.com/@code-hike/mdx/-/mdx-0.9.1--canary.396.08be59d.0.tgz#6dc581b155473df243b0e61a0a1e86ed5eccc751"
+  integrity sha512-pGbVEHmj09MdBP4uPFUz5/H/JjjOUhERv4DznAu1TKpWoeVYJ+rFP+l15HRBe9gGcJAgVSo5GQfDthnYNsIjBA==
   dependencies:
     "@code-hike/lighter" "0.7.0"
     node-fetch "^2.0.0"

@@ -26,6 +26,15 @@ main {
   line-height: 1.6;
 }
 
+.ch-scrollycoding-static {
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+section:not(.ch-scrollycoding-static) .ch-code-buttons {
+  display: none;
+}
+
 section:not(.ch-scrollycoding-static) nav {
   position: absolute;
   height: 100%;
