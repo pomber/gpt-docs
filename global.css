@@ -31,6 +31,12 @@ main {
   margin: 0 auto;
 }
 
+@media (max-width: 1060px) {
+  .ch-static-toggle {
+    display: none;
+  }
+}
+
 section:not(.ch-scrollycoding-static) .ch-code-buttons {
   display: none;
 }
@@ -104,7 +110,7 @@ table {
 }
 
 .ch-scrollycoding-step-content:first-child {
-  margin-top: max(calc(50vh - 243px), 1rem);
+  margin-top: max(calc(50vh - 247px), 1rem);
 }
 .ch-scrollycoding-step-content:last-child {
   margin-bottom: max(calc(50vh - 110px), 1rem);
