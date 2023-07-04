@@ -6,7 +6,7 @@
 
 _This is a work in progress. If you want to contribute, here is the [GitHub repo](https://github.com/pomber/gpt-docs)._
 
-This site offers an alternative take on the [official API reference](https://beta.openai.com/docs/api-reference/chat) and the [official GPT guide](https://platform.openai.com/docs/guides/gpt).
+This site offers an alternative take on OpenAI's Chat Completion [API reference](https://beta.openai.com/docs/api-reference/chat) and the [official GPT guide](https://platform.openai.com/docs/guides/gpt).
 
 In its most basic form, the Chat Completion API receives a _`system`_ message (the prompt) and a _`user`_ message, and then returns an _`assistant`_ message responding to the user.
 
@@ -14,17 +14,17 @@ In its most basic form, the Chat Completion API receives a _`system`_ message (t
 // from ../snippets/start.js
 ```
 
-In this example, we are using the [OpenAI node library](https://github.com/openai/openai-node), but the focus of this guide will be the request and response format, which is the same for the [python library](https://github.com/openai/openai-python) and the HTTP API.
+For this guide, we are using the [OpenAI node library](https://github.com/openai/openai-node), but the focus of this guide will be the request and response format, which is the same for the [python library](https://github.com/openai/openai-python) and the HTTP API.
 
 ---
 
 ## Request and Response
 
+The goal of this guide is to help you understand all the fields in the request and response. There are a lot of fields. Most are optional, some are required. Some only make sense in combination with others.
+
 ```js focus=7[54],8:24,25[1],28[30],29:47,48[1]
 // from ../snippets/base.js
 ```
-
-The goal of this guide is to help you understand all the fields in the request and response. There are a lot of fields. Most are optional, some are required. Some only make sense in combination with others.
 
 From the request, the [_`model`_ and _`messages`_ fields](focus://8:12) are the most important (and also the ones that are required).
 
@@ -56,7 +56,7 @@ First you'll need the _`OPENAI_API_KEY`_. That means you need to sign up if you 
 // from ../snippets/base.js
 ```
 
-The first field from the request is the _`model`_. It's a string with the name of the model to use. If you don't care about the model right now, start with `gpt-3.5-turbo-0613`.
+The first field from the request is the _`model`_. It's a string with the name of the model to use. If you don't care about the model right now, start with _`gpt-3.5-turbo-0613`_.
 
 To understand the differences between models, let's deconstruct a model name:
 
@@ -128,11 +128,11 @@ To understand _`messages`_, let's see the possible _`role`_ values:
 
 <nav id="assistant" />
 
+The model doesn't have memory, so after you receive the response, you should append the _`assistant`_ message to the _`messages`_ array before sending the next _`user`_ message.
+
 ```js focus=9:14,26:29 mark=12[13:23]
 // from ../snippets/assistant.js
 ```
-
-The model doesn't have memory, so after you receive the response, you should append the _`assistant`_ message to the _`messages`_ array before sending the next _`user`_ message.
 
 The other usage of the _`assistant`_ message is to give the model examples of the output you want. You provide a couple of _`user`_ messages and the corresponding _`assistant`_ messages, before sending the real _`user`_ message.
 
@@ -159,13 +159,13 @@ messages: [
 
 <nav id="functions" />
 
-```js focus=11,13:26 mark=11[30:51],15[13:28]
-// from ../snippets/functions.js
-```
-
 GPT wasn't very good at generating data in a predefined format. So the latest models come with an new (optional) input called _`functions`_.
 
 You can pass a list of functions, each with a _`name`_, _`description`_, and _`parameters`_ (as a [JSON Schema](https://json-schema.org/understanding-json-schema/) object).
+
+```js focus=11,13:26 mark=11[30:51],15[13:28]
+// from ../snippets/functions.js
+```
 
 In the example, we are passing the schema of a _`getCityWeather`_ function. The typescript signature of the function would be something like:
 
@@ -183,13 +183,13 @@ function getCityWeather(params: {
 
 <nav id="function-call" />
 
-```js focus=27,39:47 mark=42[9:21]
-// from ../snippets/functions.js
-```
-
 The model is trained to detect when to reply with content as usual and when to reply with a function call.
 
 When it chooses to reply with a function call, **the response will have a message from the _`assistant`_ with the _`function_call`_ property instead of the usual _`content`_**. _(Also, the `finish_reason` should be `"function_call"`, but in my tests it sometimes comes as `"stop"`.)_
+
+```js focus=27,35:43 mark=38[9:21]
+// from ../snippets/functions.js
+```
 
 The _`function_call`_ in the response message is an object with two properties:
 
@@ -214,13 +214,13 @@ The other two options for the `function_call` field are:
 
 <nav id="function-role" />
 
-```js focus=12:24,37:40 mark=21[7:22],23[16:21],39[18:56]
-// from ../snippets/function-role.js
-```
-
 Once you have the `function_call` provided by the model, you can **run the function** (be careful here, this may be dangerous depending on the function you are calling) and **append the result** to the _`messages`_ array (after the [_`assistant`_ message](focus://12:19)).
 
 You need to set the _`role`_ set to _`function`_, the _`name`_ set to the function name, and the _`content`_ set to the result of the function.
+
+```js focus=12:24,33:36 mark=21[7:22],23[16:21],35[18:56]
+// from ../snippets/function-role.js
+```
 
 Now that the model has seen the result of the function, it will be able to use it to generate the next response.
 
@@ -230,11 +230,11 @@ Now that the model has seen the result of the function, it will be able to use i
 
 <nav id="structured-data" />
 
+_`functions`_ don't have to be real functions, you can use them to turn any text into structured data.
+
 ```js focus=11,13:35
 // from ../snippets/structured-data.js
 ```
-
-_`functions`_ don't have to be real functions, you can use them to turn any text into structured data.
 
 For example, if you want to extract the named entities from a text, you can make up a `showNamedEntities` function:
 
@@ -284,13 +284,13 @@ If OpenAI detects any abuse in your requests [they'll send you](https://platform
 
 <nav id="stream" />
 
-```js focus=14,17:24
-// from ../snippets/stream.js
-```
-
 With _`stream: true`_ we can start showing the response while it's still being generated, without having to wait for the whole response.
 
 OpenAI uses [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) for the streaming. How you process the stream depends on your tech stack (this example is using Node.js). But the idea is the same, you receive a stream of chunks.
+
+```js focus=14,17:24
+// from ../snippets/stream.js
+```
 
 Chunks are strings that starts with `data:` followed by an object. The first chunk looks like this: <span className="break-all"> _`'data: {"id":"chatcmpl-xxxx","object":"chat.completion.chunk","created":1688198627,"model":"gpt-3.5-turbo-0613","choices":[{"index":0,"delta":{"role":"assistant","content":""},"finish_reason":null}]}'`_ </span>
 
