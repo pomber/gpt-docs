@@ -6,7 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@code-hike/mdx": "0.9.1-next.3",
+    "@code-hike/mdx": "0.9.1-next.4",
     "@mdx-js/loader": "^2.3.0",
     "@mdx-js/react": "^2.3.0",
     "@next/mdx": "^13.4.5",
