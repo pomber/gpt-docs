@@ -241,7 +241,7 @@ For example, if you want to extract the named entities from a text, you can make
 ```ts
 function showNamedEntities(params: {
   entities: { name: string; type: string }[]
-})
+});
 ```
 
 Then if you pass a message like _`{ role: "user", content: "Messi leaving PSG" }`_, the model will reply with a call to the `showNamedEntities` function:
